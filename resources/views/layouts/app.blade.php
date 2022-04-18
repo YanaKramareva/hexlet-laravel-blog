@@ -13,7 +13,13 @@
         <div class="container mt-4">
             <a href="/">Home</a>
             <a href="/about">About</a>
-            <a href="/articles">Articles</a>
+            <a href="{{route('articles.index')}}">Articles</a>
+            <a href="{{route('articles.create')}}">Create new article</a>
+            <a href="{{route('article_categories.index')}}">Articles categories</a>
+            <a href="{{route('article_categories.create')}}">Create category</a>
+            <a href="/team">Team</a>
+
+
             <h1>@yield('header')</h1>
             <div>
                 @yield('content')

@@ -6,5 +6,8 @@
 <!-- Секция, содержащая HTML блок. Имеет открывающую и закрывающую часть. -->
 @section('content')
     <h1>Статьи</h1>
-    <p>Тут будут статьи</p>
+    @foreach ($articles as $article)
+        <h2>{{ $article['name'] }}</h2>
+        <p>{{ $article['body'] }}</p>
+    @endforeach
     @endsection
