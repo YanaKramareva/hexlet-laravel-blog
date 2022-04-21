@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{$category->name}}</h1>
+
+<a href="{{ route('article_categories.edit', $category) }}">Edit category</a>
+
+{{$category->name}}</h1>
     <div>{{$category->description}}</div>
 
     @if ($category->articles->isNotEmpty())
@@ -9,7 +12,7 @@
         <ol>
             @foreach($category->articles as $article)
                 <li>
-                    <a href="{{ route('articles.show', $article) }}">{{$article->name}}</a>
+                    <a href="{{ route('article.show', $article) }}">{{$article->name}}</a>
                 </li>
             @endforeach
         </ol>

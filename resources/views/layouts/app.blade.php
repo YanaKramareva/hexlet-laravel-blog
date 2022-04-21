@@ -1,4 +1,7 @@
 <!doctype html>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="csrf-param" content="_token" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -14,11 +17,8 @@
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="{{route('articles.index')}}">Articles</a>
-            <a href="{{route('articles.create')}}">Create new article</a>
             <a href="{{route('article_categories.index')}}">Articles categories</a>
-            <a href="{{route('article_categories.create')}}">Create category</a>
             <a href="/team">Team</a>
-
 
             <h1>@yield('header')</h1>
             <div>

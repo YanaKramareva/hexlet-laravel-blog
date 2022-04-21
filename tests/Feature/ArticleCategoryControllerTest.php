@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\Article;
+use App\Models\{Article, ArticleCategory};
 
 class ArticleCategoryControllerTest extends TestCase
 {
@@ -14,58 +14,36 @@ class ArticleCategoryControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testCreate()
+    public function testEdit()
     {
-        $response = $this->get(route('article_categories.create'));
+        $category = ArticleCategory::factory()->create();
+        $response = $this->get(route('article_categories.edit', $category));
+        $response->assertSee('PATCH');
         $response->assertStatus(200);
     }
 
-    public function testStoreWithValidationErrors()
+    public function testUpdateWithValidationErrors()
     {
+        $category = ArticleCategory::factory()->create();
         $params = [
             'description' => 'b',
             'state' => 'draft'
         ];
-        $response = $this->post(route('article_categories.store'), $params);
-        $response->assertStatus(302);
+        $response = $this->patch(route('article_categories.update', $category), $params);
         $response->assertSessionHasErrors();
-
-        $this->assertDatabaseMissing('article_categories', $params);
-
-        $params = [
-            'name' => str_repeat('name', 26),
-            'description' => str_repeat('lala', 50),
-            'state' => 'draft'
-        ];
-
-        $response = $this->post(route('article_categories.store'), $params);
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors();
-
-        $this->assertDatabaseMissing('article_categories', $params);
-
-        $params = [
-            'name' => 'hop hey lala test',
-            'description' => str_repeat('lala', 50),
-            'state' => 'dratt'
-        ];
-
-        $response = $this->post(route('article_categories.store'), $params);
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors();
-
-        $this->assertDatabaseMissing('article_categories', $params);
     }
 
-    public function testStore()
+    public function testUpdate()
     {
+        $category = ArticleCategory::factory()->create();
         $params = [
             'name' => 'jopa',
-            'description' => str_repeat('lala', 60),
+            'description' => str_repeat('lala', 50),
             'state' => 'draft'
         ];
-        $response = $this->post(route('article_categories.store'), $params);
+        $response = $this->patch(route('article_categories.update', $category), $params);
         $response->assertStatus(302);
+        $response->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('article_categories', [
             'name' => 'jopa'

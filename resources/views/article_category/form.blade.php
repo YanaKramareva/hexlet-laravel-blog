@@ -1,4 +1,3 @@
-@extends('layouts.app')
 @include('layouts.flash_msg')
 
 @if ($errors->any())
@@ -11,8 +10,9 @@
     </div>
 @endif
 
-
-{{ Form::model($article, ['route' => 'articles.store']) }}
-@include('article.form')
-{{ Form::submit('Save') }}
-{{ Form::close() }}
+{{ Form::label('name', 'Name') }}
+{{ Form::text('name') }}<br>
+{{ Form::label('description', 'Description') }}
+{{ Form::textarea('description') }}<br>
+{{ Form::label('state', 'State') }}
+{{ Form::text('state') }}<br>

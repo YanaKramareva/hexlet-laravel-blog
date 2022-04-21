@@ -157,4 +157,48 @@ public function create()
             ->route('article_categories.index')
             ->with('success', 'Category created successfully');
     }
+
+    /*
+     * Реализуйте экшены для редактирования категории.
+     *  Добавьте валидации аналогичные тем что были при создании.
+     */
+
+    public function edit($id)
+    {
+        $category = ArticleCategory::findOrFail($id);
+        return view('article_category.edit', compact('category'));
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $category = ArticleCategory::findOrFail($id);
+        $data = $this->validate($request, [
+            // У обновления немного изменённая валидация.
+            // В проверку уникальности добавляется название поля и id текущего объекта
+            // Если этого не сделать, Laravel будет ругаться на то что имя уже существует
+            'name' => 'required|unique:article_categories,name,' . $category->id,
+            'description' => 'required|min:20',
+            'state' => 'required| in:draft,published'
+        ]);
+        $category->fill($data);
+        $category->save();
+        return redirect()
+            ->route('article_categories.index')
+            ->with('success', 'Article category updated successfully');
+    }
+
+/*
+ * Реализуйте экшен для удаления категории.
+ */
+    public function destroy($id)
+    {
+        // DELETE — идемпотентный метод, поэтому результат операции всегда один и тот же
+        $category = ArticleCategory::findOrFail($id);
+        if ($category) {
+            $category->delete();
+        }
+        return redirect()->route('article_categories.index')
+            ->with('success', 'Category deleted successfully');
+    }
 }
