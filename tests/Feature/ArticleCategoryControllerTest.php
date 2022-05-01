@@ -45,8 +45,10 @@ class ArticleCategoryControllerTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas('article_categories', [
+        $this->assertDatabaseHas(
+            'article_categories', [
             'name' => 'jopa'
-        ]);
+            ]
+        );
     }
 }

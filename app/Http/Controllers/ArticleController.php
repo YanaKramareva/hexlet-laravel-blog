@@ -35,15 +35,17 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $this->validate(
+            $request, [
             'name' => 'required|unique:articles',
             'body' => 'required|min:200'
-        ]);
+            ]
+        );
 
         $article = new Article();
         $article->fill($request->all());
@@ -51,25 +53,26 @@ class ArticleController extends Controller
 
         return redirect()
             ->route('articles.index')
-        ->with('success', 'Category created successfully');
+            ->with('success', 'Category created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Article  $article
+     * @param  \App\Models\Article $article
      * @return Application|Factory|\Illuminate\Contracts\View\View
      */
     public function show(Article $article)
     {
-        $comment = new ArticleComment(); // need for the form
-        return view('article.show', compact('article', 'comment'));
+        $comments = new ArticleComment();
+        $comments = $comments->where('article', $article);// need for the form
+        return view('article.show', compact('article', 'comments'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Article  $article
+     * @param  \App\Models\Article $article
      * @return Application|Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Article $article)
@@ -80,16 +83,18 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Article      $article
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Article $article)
     {
-        $this->validate($request, [
+        $this->validate(
+            $request, [
             'name' => 'required|unique:articles,name,' . $article->id,
             'body' => 'required|min:200',
-        ]);
+            ]
+        );
 
         $article->fill($request->all());
         $article->save();
@@ -101,7 +106,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Article  $article
+     * @param  \App\Models\Article $article
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Article $article)

@@ -53,12 +53,12 @@ class ArticleCategoryController extends Controller
 
     /*
       app/Http/Controller/ArticleCategoryController.php
-Реализуйте экшены для создания категории. Добавьте следующие валидации:
+    Реализуйте экшены для создания категории. Добавьте следующие валидации:
 
-Имя (name) – обязательно и должно быть максимум 100 знаков.
-Описание (description) – обязательно и должно быть минимум 200 знаков.
-Состояние (state) – может быть либо draft либо published.
-public function create()
+    Имя (name) – обязательно и должно быть максимум 100 знаков.
+    Описание (description) – обязательно и должно быть минимум 200 знаков.
+    Состояние (state) – может быть либо draft либо published.
+    public function create()
     {
         $category = new ArticleCategory();
         return view('article_category.create', compact('category'));
@@ -82,9 +82,9 @@ public function create()
             ->route('article_categories.index');
     }
     resources/views/article_category/create.blade.php
-@extends('layouts.app')
+    @extends('layouts.app')
 
-@section('content')
+    @section('content')
     {{-- BEGIN --}}
     @if ($errors->any())
         <div>
@@ -104,18 +104,18 @@ public function create()
         {{ Form::submit('Создать') }}
     {{ Form::close() }}
     {{-- END --}}
-@endsection
+    @endsection
 
 
     Реализуйте форму создания категории. Добавьте три поля:
-Имя
-Описание
-Состояние
-Добавьте вывод ошибок.
+    Имя
+    Описание
+    Состояние
+    Добавьте вывод ошибок.
 
     @extends('layouts.app')
 
-@section('content')
+    @section('content')
     {{-- BEGIN --}}
     <small><a href="{{ route('article_categories.create') }}">Создать категорию</a></small>
     {{-- END --}}
@@ -124,7 +124,7 @@ public function create()
         <h2><a href="{{ route('article_categories.show', $category) }}">{{$category->name}}</a></h2>
         <div>{{$category->description}}</div>
     @endforeach
-@endsection
+    @endsection
      */
 
     // Вывод формы
@@ -141,11 +141,13 @@ public function create()
         // Проверка введённых данных
         // Если будут ошибки, то возникнет исключение
         // Иначе возвращаются данные формы
-        $data = $this->validate($request, [
+        $data = $this->validate(
+            $request, [
             'name' => 'required|max:100',
             'description' => 'required|min:20',
             'state' => 'required| in:draft,published'
-        ]);
+            ]
+        );
 
         $category = new ArticleCategory();
         // Заполнение статьи данными из формы
@@ -173,14 +175,16 @@ public function create()
     {
 
         $category = ArticleCategory::findOrFail($id);
-        $data = $this->validate($request, [
+        $data = $this->validate(
+            $request, [
             // У обновления немного изменённая валидация.
             // В проверку уникальности добавляется название поля и id текущего объекта
             // Если этого не сделать, Laravel будет ругаться на то что имя уже существует
             'name' => 'required|unique:article_categories,name,' . $category->id,
             'description' => 'required|min:20',
             'state' => 'required| in:draft,published'
-        ]);
+            ]
+        );
         $category->fill($data);
         $category->save();
         return redirect()
@@ -188,9 +192,9 @@ public function create()
             ->with('success', 'Article category updated successfully');
     }
 
-/*
- * Реализуйте экшен для удаления категории.
- */
+    /*
+    * Реализуйте экшен для удаления категории.
+    */
     public function destroy($id)
     {
         // DELETE — идемпотентный метод, поэтому результат операции всегда один и тот же

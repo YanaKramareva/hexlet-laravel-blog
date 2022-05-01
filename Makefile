@@ -32,7 +32,7 @@ lint:
 	composer phpcs
 
 lint-fix:
-	composer phpcbf
+	composer exec  phpcbf app bootstrap config lang tests
 
 compose:
 	docker-compose up
