@@ -142,7 +142,8 @@ class ArticleCategoryController extends Controller
         // Если будут ошибки, то возникнет исключение
         // Иначе возвращаются данные формы
         $data = $this->validate(
-            $request, [
+            $request,
+            [
             'name' => 'required|max:100',
             'description' => 'required|min:20',
             'state' => 'required| in:draft,published'
@@ -176,7 +177,8 @@ class ArticleCategoryController extends Controller
 
         $category = ArticleCategory::findOrFail($id);
         $data = $this->validate(
-            $request, [
+            $request,
+            [
             // У обновления немного изменённая валидация.
             // В проверку уникальности добавляется название поля и id текущего объекта
             // Если этого не сделать, Laravel будет ругаться на то что имя уже существует

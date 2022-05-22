@@ -41,7 +41,8 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $this->validate(
-            $request, [
+            $request,
+            [
             'name' => 'required|unique:articles',
             'body' => 'required|min:200'
             ]
@@ -90,7 +91,8 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $this->validate(
-            $request, [
+            $request,
+            [
             'name' => 'required|unique:articles,name,' . $article->id,
             'body' => 'required|min:200',
             ]

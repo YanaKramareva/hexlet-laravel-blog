@@ -33,7 +33,8 @@ class ArticleCommentController extends Controller
     public function store(Article $article, Request $request)
     {
         $validated = $this->validate(
-            $request, [
+            $request,
+            [
             'content' => 'required|min:10'
             ]
         );
@@ -54,7 +55,8 @@ class ArticleCommentController extends Controller
     public function update(Request $request, Article $article, ArticleComment $comment)
     {
         $validated = $this->validate(
-            $request, [
+            $request,
+            [
             'content' => 'required|min:10'
             ]
         );

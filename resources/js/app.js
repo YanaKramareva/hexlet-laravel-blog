@@ -1,2 +1,3 @@
-require('./bootstrap');
-require('jquery-ujs');
+import 'bootstrap';
+const ujs = require('@rails/ujs');
+ujs.start();
